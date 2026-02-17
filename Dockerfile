@@ -1,17 +1,15 @@
-# Use Java 17
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jdk-jammy
 
-# Set working directory
 WORKDIR /app
 
-# Copy project files
 COPY . .
 
-# Build the Spring Boot app
+# Give permission to mvnw
+RUN chmod +x mvnw
+
+# Build app
 RUN ./mvnw clean package -DskipTests
 
-# Expose Render dynamic port
 EXPOSE 10000
 
-# Run jar dynamically (auto detect jar name)
 CMD ["sh", "-c", "java -jar target/*.jar --server.port=$PORT"]
