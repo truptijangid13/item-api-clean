@@ -1,4 +1,4 @@
-# Use Java 17 image
+# Use Java 17
 FROM openjdk:17-jdk-slim
 
 # Set working directory
@@ -10,8 +10,8 @@ COPY . .
 # Build the Spring Boot app
 RUN ./mvnw clean package -DskipTests
 
-# Expose port
-EXPOSE 8080
+# Expose Render dynamic port
+EXPOSE 10000
 
-# Run the jar file
-CMD ["java", "-jar", "target/item-api-0.0.1-SNAPSHOT.jar"]
+# Run jar dynamically (auto detect jar name)
+CMD ["sh", "-c", "java -jar target/*.jar --server.port=$PORT"]
